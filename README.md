@@ -1,66 +1,56 @@
 
-# Título do Projeto
+# AMYNK - Everything you need to know about your medicine 
 
-Uma breve descrição sobre o que esse projeto faz e para quem ele é
+## About 
 
+This is a mobile application that helps blind people or who cannot read due to some disability to recognize the medicine they need to take using their voices, celular camera and artificial intelligence.
 
-## Autores
+## Author
 
-- [@octokatherine](https://www.github.com/octokatherine)
+- [@jujubalandia](https://www.github.com/jujubalandia)
 
+## Why
 
-## Etiquetas
+Think in people with visual disabilities or blind, or illiterate in their native language or in the language of medicine packing. How this people have sure about with drug needed to take. 
 
-Adicione etiquetas de algum lugar, como: [shields.io](https://shields.io/)
+## Solution
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
-[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
-
-
-## Funcionalidades
-
-- Temas dark e light
-- Preview em tempo real
-- Modo tela cheia
-- Multiplataforma
+An application capable to recognize speach to text and image recognition and processing to allow people know about name, details, dosage and more information about the drug usability. This is a application with and advanced Voice UI Interface allow people to interact with this application with only voice, not buttons, text and neither visual components to interact via touch.  
+  
+## How it works 
 
 
-## Screenshots
+## Features
+
+- Multi lingual voice interface
+- Auto detect language end to end of the user interaction (phone, objects, etc) 
+- Fast 
+- Simple interaction
+  
+## Demos
 
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
 
-## Stack utilizada
+## Tech Stack
 
-**Front-end:** React, Redux, TailwindCSS
-
-**Back-end:** Node, Express
+**Main:** Flutter/Dart, Google Gemini API, etc
 
 
-## Instalação
+## Installation 
 
-Instale my-project com npm
 
-```bash
-  npm install my-project
-  cd my-project
-```
+## Test
 
-## Uso/Exemplos
 
-```javascript
-import Component from 'my-project'
+## Usage
 
-function App() {
-  return <Component />
-}
 
 ## Roadmap
 
-- Melhorar o suporte de navegadores
+- Apple Play Store
 
-- Adicionar mais integrações
+- Google Play Store
 
 
 
