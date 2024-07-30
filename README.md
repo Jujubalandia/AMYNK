@@ -24,8 +24,8 @@ An application capable to recognize speach to text and image recognition and pro
 
 - Multi lingual voice interface
 - Auto detect language end to end of the user interaction (phone, objects, etc) 
-- Fast 
-- Simple interaction
+- Can schedule times to take medicine
+- Can remember when the user need to take the medicine
   
 ## Demos
 
