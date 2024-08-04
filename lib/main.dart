@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Init App:',
+              'Init App',
             ),
           ],
         ),
