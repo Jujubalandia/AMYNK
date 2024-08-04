@@ -1,16 +1,76 @@
-# amynk
 
-A new Flutter project.
+# AMYNK - Everything you need to know about your medicine 
 
-## Getting Started
+## About 
 
-This project is a starting point for a Flutter application.
+This is a mobile application that helps blind people or who cannot read due to some disability to recognize the medicine they need to take using their voices, celular camera and artificial intelligence.
 
-A few resources to get you started if this is your first Flutter project:
+## Author
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [@jujubalandia](https://www.github.com/jujubalandia)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Inspiration
+
+### [medgrandma-ai](https://github.com/laysaalves/medgrandma-ai)
+
+By
+- [@Layseiras](https://github.com/laysaalves) 
+
+## Why
+
+Think in people with visual disabilities or blind, or illiterate in their native language or in the language of medicine packing. How this people have sure about with drug needed to take. 
+
+## Solution
+
+An application capable to recognize speach to text and image recognition and processing to allow people know about name, details, dosage and more information about the drug usability. This is a application with and advanced Voice UI Interface allow people to interact with this application with only voice, not buttons, text and neither visual components to interact via touch.  
+  
+## How it works 
+
+
+## Features
+
+- Multi lingual voice interface
+- Auto detect language end to end of the user interaction (phone, objects, etc) 
+- Can schedule times to take medicine
+- Can remember when the user need to take the medicine
+  
+## Demos
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+
+## Tech Stack
+
+**Main:** Flutter/Dart, Google Gemini API, etc
+
+
+## Installation 
+
+
+## Test
+
+
+## Usage
+
+
+## Roadmap
+
+- Apple Play Store
+
+- Google Play Store
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+```
+
