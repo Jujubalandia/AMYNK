@@ -9,6 +9,13 @@ This is a mobile application that helps blind people or who cannot read due to s
 
 - [@jujubalandia](https://www.github.com/jujubalandia)
 
+## Inspiration
+
+### [medgrandma-ai](https://github.com/laysaalves/medgrandma-ai)
+
+By
+- [@Layseiras](https://github.com/laysaalves) 
+
 ## Why
 
 Think in people with visual disabilities or blind, or illiterate in their native language or in the language of medicine packing. How this people have sure about with drug needed to take. 
