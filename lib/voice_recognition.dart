@@ -3,8 +3,10 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
 
 class VoiceRecognition extends StatefulWidget {
+  const VoiceRecognition({super.key});
+
   @override
-  _VoiceRecognitionState createState() => _VoiceRecognitionState();
+  State<VoiceRecognition> createState() => _VoiceRecognitionState();
 }
 
 class _VoiceRecognitionState extends State<VoiceRecognition> {
@@ -54,12 +56,12 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Voice Recognition'),
+        title: const Text('Voice Recognition'),
       ),
       body: Center(
         child: Text(
           _text,
-          style: TextStyle(fontSize: 24.0),
+          style: const TextStyle(fontSize: 24.0),
         ),
       ),
       floatingActionButton: FloatingActionButton(
