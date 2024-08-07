@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
+import 'camera_screen.dart';
+import 'package:camera/camera.dart';
 
 class VoiceRecognition extends StatefulWidget {
   const VoiceRecognition({super.key});
@@ -13,12 +15,14 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = "Press the button and start speaking";
+  late List<CameraDescription> _cameras;
 
   @override
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
     _requestPermission();
+    _initializeCameras();
   }
 
   void _requestPermission() async {
@@ -26,6 +30,15 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
     if (!status.isGranted) {
       await Permission.microphone.request();
     }
+
+    var cameraStatus = await Permission.camera.status;
+    if (!cameraStatus.isGranted) {
+      await Permission.camera.request();
+    }
+  }
+
+  void _initializeCameras() async {
+    _cameras = await availableCameras();
   }
 
   void _listen() async {
@@ -42,6 +55,9 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
             if (val.hasConfidenceRating && val.confidence > 0) {
               // Add your logic here to handle recognized words
               print('Recognized: $_text');
+              if (_text.toLowerCase().contains('take a picture')) {
+                _openCamera();
+              }
             }
           }),
         );
@@ -49,6 +65,19 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
     } else {
       setState(() => _isListening = false);
       _speech.stop();
+    }
+  }
+
+  void _openCamera() {
+    if (_cameras.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CameraScreen(camera: _cameras.first),
+        ),
+      );
+    } else {
+      print('No cameras available');
     }
   }
 
