@@ -3,6 +3,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
 import 'camera_screen.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class VoiceRecognition extends StatefulWidget {
   const VoiceRecognition({super.key});
@@ -13,16 +14,20 @@ class VoiceRecognition extends StatefulWidget {
 
 class _VoiceRecognitionState extends State<VoiceRecognition> {
   late stt.SpeechToText _speech;
-  bool _isListening = false;
-  String _text = "Tap anywhere and start speaking";
+  late FlutterTts _flutterTts;
+  String _text = "Initializing...";
   late List<CameraDescription> _cameras;
 
   @override
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
+    _flutterTts = FlutterTts();
     _requestPermission();
     _initializeCameras();
+    _speak(
+        "The app is ready to receive commands. Please say 'take a picture' to open the camera.");
+    _listenContinuously();
   }
 
   void _requestPermission() async {
@@ -41,30 +46,34 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
     _cameras = await availableCameras();
   }
 
-  void _listen() async {
-    if (!_isListening) {
-      bool available = await _speech.initialize(
-        onStatus: (val) => print('onStatus: $val'),
-        onError: (val) => print('onError: $val'),
-      );
-      if (available) {
-        setState(() => _isListening = true);
-        _speech.listen(
-          onResult: (val) => setState(() {
-            _text = val.recognizedWords;
-            if (val.hasConfidenceRating && val.confidence > 0) {
-              // Add your logic here to handle recognized words
-              print('Recognized: $_text');
-              if (_text.toLowerCase().contains('take a picture')) {
-                _openCamera();
-              }
+  void _speak(String text) async {
+    await _flutterTts.speak(text);
+  }
+
+  void _listenContinuously() async {
+    bool available = await _speech.initialize(
+      onStatus: (val) {
+        if (val == "done" || val == "notListening") {
+          _listenContinuously();
+        }
+      },
+      onError: (val) {
+        print('onError: $val');
+        _listenContinuously();
+      },
+    );
+    if (available) {
+      _speech.listen(
+        onResult: (val) => setState(() {
+          _text = val.recognizedWords;
+          if (val.hasConfidenceRating && val.confidence > 0) {
+            print('Recognized: $_text');
+            if (_text.toLowerCase().contains('take a picture')) {
+              _openCamera();
             }
-          }),
-        );
-      }
-    } else {
-      setState(() => _isListening = false);
-      _speech.stop();
+          }
+        }),
+      );
     }
   }
 
@@ -87,13 +96,10 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
       appBar: AppBar(
         title: const Text('Voice Recognition'),
       ),
-      body: GestureDetector(
-        onTap: _listen,
-        child: Center(
-          child: Text(
-            _text,
-            style: const TextStyle(fontSize: 24.0),
-          ),
+      body: Center(
+        child: Text(
+          _text,
+          style: const TextStyle(fontSize: 24.0),
         ),
       ),
     );
