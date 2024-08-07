@@ -14,7 +14,7 @@ class VoiceRecognition extends StatefulWidget {
 class _VoiceRecognitionState extends State<VoiceRecognition> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
-  String _text = "Press the button and start speaking";
+  String _text = "Tap anywhere and start speaking";
   late List<CameraDescription> _cameras;
 
   @override
@@ -87,15 +87,14 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
       appBar: AppBar(
         title: const Text('Voice Recognition'),
       ),
-      body: Center(
-        child: Text(
-          _text,
-          style: const TextStyle(fontSize: 24.0),
+      body: GestureDetector(
+        onTap: _listen,
+        child: Center(
+          child: Text(
+            _text,
+            style: const TextStyle(fontSize: 24.0),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _listen,
-        child: Icon(_isListening ? Icons.mic : Icons.mic_none),
       ),
     );
   }
