@@ -1,43 +1,19 @@
 import 'package:flutter/material.dart';
+import 'voice_recognition.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Base',
-      home: MyHomePage(title: 'Base'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Init App',
-            ),
-          ],
-        ),
+    return MaterialApp(
+      title: 'Voice Assistance App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: VoiceRecognition(),
     );
   }
 }
