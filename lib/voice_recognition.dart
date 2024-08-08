@@ -4,9 +4,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'camera_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:io';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 class VoiceRecognition extends StatefulWidget {
   const VoiceRecognition({super.key});
@@ -20,8 +19,7 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
   late FlutterTts _flutterTts;
   String _text = "Initializing...";
   late List<CameraDescription> _cameras;
-  final String _apiKey =
-      'AIzaSyCQR7C0s-JZ22MNHvV3yTKucHO4dWTGMDs'; // Replace with your API key
+  final String _apiKey = ''; // Replace with your API key
 
   @override
   void initState() {
@@ -99,6 +97,26 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
 
   Future<void> _analyzePicture(String imagePath) async {
     _speak("Analizando a imagem.");
+    try {
+      final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: _apiKey);
+
+      final imageBytes = File(imagePath).readAsBytesSync();
+
+      final prompt = TextPart(
+          "Identifique o medicamento da imagem e dê um resumo prático com a menor quantidade de linhas possível sendo bem objetivo e simples como se estivesse falando com uma vovó bem velhinha, incluindo informações da bula de como usar e para que serve, sem adicionar quaisquer outros pontos que não sejam fatais caso não sejam explicados, caso a vovó que será medicada não saiba, deixe o aviso de que só pode ser usado sob recomendações médicas.");
+      final imageParts = [
+        DataPart('image/jpeg', imageBytes),
+      ];
+      final response = await model.generateContent([
+        Content.multi([prompt, ...imageParts])
+      ]);
+      print(response.text);
+      _speak(response.text ?? 'Error: No response text');
+    } catch (e) {
+      print('##### VOICE FILE Error analyzing picture: $e');
+      _speak("Error analyzing the picture.");
+    }
+
     /*try {
       final bytes = File(imagePath).readAsBytesSync();
       final base64Image = base64Encode(bytes);
