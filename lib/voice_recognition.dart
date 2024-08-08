@@ -4,6 +4,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'camera_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
 
 class VoiceRecognition extends StatefulWidget {
   const VoiceRecognition({super.key});
@@ -17,6 +20,8 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
   late FlutterTts _flutterTts;
   String _text = "Initializing...";
   late List<CameraDescription> _cameras;
+  final String _apiKey =
+      'AIzaSyCQR7C0s-JZ22MNHvV3yTKucHO4dWTGMDs'; // Replace with your API key
 
   @override
   void initState() {
@@ -35,7 +40,6 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
     if (!status.isGranted) {
       await Permission.microphone.request();
     }
-
     var cameraStatus = await Permission.camera.status;
     if (!cameraStatus.isGranted) {
       await Permission.camera.request();
@@ -82,7 +86,10 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CameraScreen(camera: _cameras.first),
+          builder: (context) => CameraScreen(
+            camera: _cameras.first,
+            onPictureTaken: _analyzePicture,
+          ),
         ),
       );
     } else {
@@ -90,11 +97,44 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
     }
   }
 
+  Future<void> _analyzePicture(String imagePath) async {
+    _speak("Analizando a imagem.");
+    /*try {
+      final bytes = File(imagePath).readAsBytesSync();
+      final base64Image = base64Encode(bytes);
+
+      final response = await http.post(
+        Uri.parse(
+            'https://api.google.com/gemini/v1/analyze'), // Replace with the actual API endpoint
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $_apiKey',
+        },
+        body: jsonEncode({
+          'image': base64Image,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final result = jsonDecode(response.body);
+        final description = result['description'];
+        _speak("The picture shows: $description");
+      } else {
+        print('Failed to analyze picture: ${response.body}');
+        _speak("Failed to analyze the picture.");
+      }
+    } catch (e) {
+      print('##### VOICE FILE Error analyzing picture: $e');
+      _speak("Error analyzing the picture.");
+    }
+    */
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Voice Recognition'),
+        title: const Text('Amynk'),
       ),
       body: Center(
         child: Text(
