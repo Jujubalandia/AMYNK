@@ -116,36 +116,6 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
       print('##### VOICE FILE Error analyzing picture: $e');
       _speak("Error analyzing the picture.");
     }
-
-    /*try {
-      final bytes = File(imagePath).readAsBytesSync();
-      final base64Image = base64Encode(bytes);
-
-      final response = await http.post(
-        Uri.parse(
-            'https://api.google.com/gemini/v1/analyze'), // Replace with the actual API endpoint
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $_apiKey',
-        },
-        body: jsonEncode({
-          'image': base64Image,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final result = jsonDecode(response.body);
-        final description = result['description'];
-        _speak("The picture shows: $description");
-      } else {
-        print('Failed to analyze picture: ${response.body}');
-        _speak("Failed to analyze the picture.");
-      }
-    } catch (e) {
-      print('##### VOICE FILE Error analyzing picture: $e');
-      _speak("Error analyzing the picture.");
-    }
-    */
   }
 
   @override
