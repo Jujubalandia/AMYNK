@@ -36,6 +36,7 @@ dependencies:
   flutter_tts: ^3.8.5 
   google_generative_ai: ^0.4.4
   logger: ^2.4.0
+  flutter_native_splash: ^2.4.1
 
 dev_dependencies:
   flutter_test:

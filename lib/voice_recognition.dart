@@ -7,9 +7,12 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:io';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class VoiceRecognition extends StatefulWidget {
-  const VoiceRecognition({super.key});
+  final String title;
+
+  const VoiceRecognition({super.key, required this.title});
 
   @override
   State<VoiceRecognition> createState() => _VoiceRecognitionState();
@@ -33,6 +36,8 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
   @override
   void initState() {
     super.initState();
+    FlutterNativeSplash.remove();
+
     _speech = stt.SpeechToText();
     _flutterTts = FlutterTts();
     _requestPermission();
@@ -69,10 +74,12 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
         }
       },
       onError: (val) {
-        logger.e('onError:', error: '$val');
+        logger.e('onError: $val');
         _listenContinuously();
       },
+      debugLogging: true,
     );
+
     if (available) {
       _speech.listen(
         onResult: (val) => setState(() {
