@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:logger/logger.dart';
 
 class CameraScreen extends StatefulWidget {
   final CameraDescription camera;
@@ -34,16 +35,25 @@ class _CameraScreenState extends State<CameraScreen> {
     await _flutterTts.speak(text);
   }
 
+  var logger = Logger(
+    printer: PrettyPrinter(),
+  );
+
+  var loggerNoStack = Logger(
+    printer: PrettyPrinter(methodCount: 0),
+  );
+
   Future<void> _takePicture() async {
     try {
       await _initializeControllerFuture;
       final image = await _controller.takePicture();
       // Save the image to local storage or do something with it
-      print('##### CAMERA FILE Picture taken: ${image.path}');
+      loggerNoStack.i('CAMERA: Picture taken: ${image.path}');
       _speak("Picture taken successfully. Analyzing the picture now.");
       widget.onPictureTaken(image.path);
     } catch (e) {
-      print('##### CAMERA FILE Error taking picture: $e');
+      logger.e('CAMERA: Error taking picture:', error: '$e');
+      Logger(printer: SimplePrinter(colors: true)).t('Camera falhou');
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:io';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:logger/logger.dart';
 
 class VoiceRecognition extends StatefulWidget {
   const VoiceRecognition({super.key});
@@ -20,6 +21,14 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
   String _text = "Initializing...";
   late List<CameraDescription> _cameras;
   final String _apiKey = ''; // Replace with your API key
+
+  var logger = Logger(
+    printer: PrettyPrinter(),
+  );
+
+  var loggerNoStack = Logger(
+    printer: PrettyPrinter(methodCount: 0),
+  );
 
   @override
   void initState() {
@@ -60,7 +69,7 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
         }
       },
       onError: (val) {
-        print('onError: $val');
+        logger.e('onError:', error: '$val');
         _listenContinuously();
       },
     );
@@ -69,7 +78,7 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
         onResult: (val) => setState(() {
           _text = val.recognizedWords;
           if (val.hasConfidenceRating && val.confidence > 0) {
-            print('Recognized: $_text');
+            loggerNoStack.i('Recognized: $_text');
             if (_text.toLowerCase().contains('take a picture')) {
               _openCamera();
             }
@@ -91,7 +100,7 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
         ),
       );
     } else {
-      print('No cameras available');
+      logger.w('No cameras available');
     }
   }
 
@@ -110,10 +119,10 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
       final response = await model.generateContent([
         Content.multi([prompt, ...imageParts])
       ]);
-      print(response.text);
+      logger.i(response.text);
       _speak(response.text ?? 'Error: No response text');
     } catch (e) {
-      print('##### VOICE FILE Error analyzing picture: $e');
+      loggerNoStack.e('VOICE Error analyzing picture:', error: '$e');
       _speak("Error analyzing the picture.");
     }
   }
