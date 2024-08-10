@@ -30,8 +30,6 @@ class _CameraScreenState extends State<CameraScreen> {
     _flutterTts = FlutterTts();
     _speak(
         "Câmera pronta. Toque na tela para tirar uma foto para reconhecimento do remédio");
-    _speak(
-        "Câmera pronta. Toque na tela para tirar uma foto para reconhecimento do remédio");
   }
 
   void _speak(String text) async {
@@ -56,7 +54,6 @@ class _CameraScreenState extends State<CameraScreen> {
       _speak("Foto tirada com sucesso, analisando agora.");
     } catch (e) {
       logger.e('CAMERA: Error taking picture:', error: '$e');
-      Logger(printer: SimplePrinter(colors: true)).t('Camera failed');
       Logger(printer: SimplePrinter(colors: true)).t('Camera failed');
     }
   }
