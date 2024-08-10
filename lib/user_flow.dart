@@ -31,7 +31,7 @@ class _UserFlowState extends State<UserFlow> {
     super.initState();
     FlutterNativeSplash.remove();
 
-    final googleGeminiBloc = GoogleGeminiBloc(apiKey: '');
+    final googleGeminiBloc = GoogleGeminiBloc(apiKey: _apiKey);
     _voiceRecognition = VoiceRecognition(onRecognized: _onRecognized);
     _imageAnalyzing = ImageAnalyzing(
         logger: logger,
