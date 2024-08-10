@@ -23,14 +23,10 @@ class _UserFlowState extends State<UserFlow> {
   late FlutterTts _flutterTts;
   String _text = "Iniciando ...";
   late List<CameraDescription> _cameras;
-  final String _apiKey = ''; // Replace with your API key
+  final String _apiKey = '';
 
   var logger = Logger(
     printer: PrettyPrinter(),
-  );
-
-  var loggerNoStack = Logger(
-    printer: PrettyPrinter(methodCount: 0),
   );
 
   @override
@@ -64,7 +60,7 @@ class _UserFlowState extends State<UserFlow> {
     _cameras = await availableCameras();
   }
 
-  void _speak(String text) async {
+  Future<void> _speak(String text) async {
     await _flutterTts.speak(text);
   }
 
@@ -76,10 +72,10 @@ class _UserFlowState extends State<UserFlow> {
         }
       },
       onError: (val) {
-        logger.e('onError: $val');
+        //logger.e('onError: $val');
         _listenContinuously();
       },
-      debugLogging: true,
+      debugLogging: false,
     );
 
     if (available) {
@@ -87,40 +83,14 @@ class _UserFlowState extends State<UserFlow> {
         onResult: (val) => setState(() {
           _text = val.recognizedWords;
           if (val.hasConfidenceRating && val.confidence > 0) {
-            loggerNoStack.i('Recognized: $_text');
-            if (_text.toLowerCase().contains('ver  remédio')) {
+            logger.i('Recognized: $_text');
+            if (_text.toLowerCase().contains('remédio')) {
               _openCamera();
-            } else if (_text.toLowerCase().contains('parar')) {
-              _stopListening();
-            } else if (_text.toLowerCase().contains('iniciar')) {
-              _listenContinuously();
-            } else if (_text.toLowerCase().contains('lembrar')) {
-              _rememberMedicineSchedules();
-            } else if (_text.toLowerCase().contains('agendar')) {
-              _medicineSchedule();
             }
           }
         }),
       );
     }
-  }
-
-  void _medicineSchedule() {
-    // TO DO: implement the logic to display the medicine schedules
-    _speak("Agendar remedio paraa lembrar depois");
-    loggerNoStack.i('medicine schedules...');
-  }
-
-  void _rememberMedicineSchedules() {
-    // TO DO: implement the logic to remember medicine schedules
-    _speak("Listando remédios agendados");
-    loggerNoStack.i('Remembering medicine schedules...');
-    // TO DO: implement the logic to remember medicine schedules
-  }
-
-  void _stopListening() {
-    _speak("Parando de ouvir comandos, para ativar aperte a tela novamente.");
-    _speech.stop();
   }
 
   void _openCamera() {
@@ -148,11 +118,11 @@ class _UserFlowState extends State<UserFlow> {
 
       final prompt =
           TextPart("""Identifique o medicamento da imagem e dê um resumo prático
-             com a menor quantidade de linhas possível sendo bem objetivo e 
-             simples como se estivesse falando com uma vovó bem velhinha, 
-             incluindo informações da bula de como usar e para que serve, 
+             com a menor quantidade de linhas possível, sendo bem objetivo e 
+             simples como se estivesse falando com uma pessoa bem idosa, 
+             incluindo as informações da bula de como usar e para que serve o medicamento, 
              sem adicionar quaisquer outros pontos que não sejam fatais 
-             caso não sejam explicados, caso a vovó que será medicada não 
+             caso não sejam explicados, caso a pessoa que será medicada não 
              saiba, deixe o aviso de que só pode ser usado sob 
              recomendações médicas.""");
       final imageParts = [
@@ -162,16 +132,34 @@ class _UserFlowState extends State<UserFlow> {
         Content.multi([prompt, ...imageParts])
       ]);
       logger.i(response.text);
-      _speak(response.text ?? 'Erro, sem resposta');
+      String explicationMedicine =
+          response.text?.replaceAll('*', '') ?? 'Erro, sem resposta';
+      await _speak(explicationMedicine);
+      // Extract the medicine name from the response text
+      String? nameMedicine = _extractMedicineName(explicationMedicine);
 
-      if (response.text != null) {
-        _speak("Deseja agendar o horario de uso?");
-        _listenContinuously();
+      if (nameMedicine == null) {
+        // If the medicine name is not found, make a subsequent call to refine the information
+        final refinePrompt = TextPart(
+            "Extrair o nome do remedio da seguinte explicação, apenas o nome: $explicationMedicine");
+        final refineResponse = await model.generateContent([
+          Content.multi([refinePrompt])
+        ]);
+        nameMedicine = refineResponse.text?.replaceAll('*', '') ?? 'Error';
       }
+
+      logger.i('Medicine Name: $nameMedicine');
     } catch (e) {
-      loggerNoStack.e('VOICE Error analyzing picture:', error: '$e');
+      logger.e('VOICE Error analyzing picture:', error: '$e');
       _speak("Erro ao analisar a imagem.");
     }
+  }
+
+  String? _extractMedicineName(String text) {
+    // Use a regular expression to extract the medicine name
+    final RegExp nameRegExp = RegExp(r'name\s*:\s*(\w+)', caseSensitive: false);
+    final match = nameRegExp.firstMatch(text);
+    return match?.group(1);
   }
 
   @override
@@ -180,10 +168,10 @@ class _UserFlowState extends State<UserFlow> {
       appBar: AppBar(
         title: const Text('Amynk'),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
-          _text,
-          style: const TextStyle(fontSize: 24.0),
+          '',
+          style: TextStyle(fontSize: 24.0),
           //TO-DO: implement the logic to Speak on Tap on screen
         ),
       ),
