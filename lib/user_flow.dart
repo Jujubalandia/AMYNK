@@ -9,19 +9,19 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-class VoiceRecognition extends StatefulWidget {
+class UserFlow extends StatefulWidget {
   final String title;
 
-  const VoiceRecognition({super.key, required this.title});
+  const UserFlow({super.key, required this.title});
 
   @override
-  State<VoiceRecognition> createState() => _VoiceRecognitionState();
+  State<UserFlow> createState() => _UserFlowState();
 }
 
-class _VoiceRecognitionState extends State<VoiceRecognition> {
+class _UserFlowState extends State<UserFlow> {
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
-  String _text = "Initializing...";
+  String _text = "Iniciando ...";
   late List<CameraDescription> _cameras;
   final String _apiKey = ''; // Replace with your API key
 
@@ -42,8 +42,10 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
     _flutterTts = FlutterTts();
     _requestPermission();
     _initializeCameras();
-    _speak(
-        "The app is ready to receive commands. Please say 'take a picture' to open the camera.");
+    _speak("""
+          Estou pronto para te ajudar com os seus remédios 
+          É só falar Ver Remédio para abrir a câmera.
+       """);
     _listenContinuously();
   }
 
@@ -86,15 +88,15 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
           _text = val.recognizedWords;
           if (val.hasConfidenceRating && val.confidence > 0) {
             loggerNoStack.i('Recognized: $_text');
-            if (_text.toLowerCase().contains('take a picture')) {
+            if (_text.toLowerCase().contains('ver  remédio')) {
               _openCamera();
-            } else if (_text.toLowerCase().contains('stop')) {
+            } else if (_text.toLowerCase().contains('parar')) {
               _stopListening();
-            } else if (_text.toLowerCase().contains('start')) {
+            } else if (_text.toLowerCase().contains('iniciar')) {
               _listenContinuously();
-            } else if (_text.toLowerCase().contains('remember')) {
+            } else if (_text.toLowerCase().contains('lembrar')) {
               _rememberMedicineSchedules();
-            } else if (_text.toLowerCase().contains('sim')) {
+            } else if (_text.toLowerCase().contains('agendar')) {
               _medicineSchedule();
             }
           }
@@ -104,17 +106,20 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
   }
 
   void _medicineSchedule() {
-    // Add your logic here
+    // TO DO: implement the logic to display the medicine schedules
+    _speak("Agendar remedio paraa lembrar depois");
     loggerNoStack.i('medicine schedules...');
   }
 
   void _rememberMedicineSchedules() {
-    // Add your logic here to remember medicine schedules
+    // TO DO: implement the logic to remember medicine schedules
+    _speak("Listando remédios agendados");
     loggerNoStack.i('Remembering medicine schedules...');
     // TO DO: implement the logic to remember medicine schedules
   }
 
   void _stopListening() {
+    _speak("Parando de ouvir comandos, para ativar aperte a tela novamente.");
     _speech.stop();
   }
 
@@ -141,8 +146,15 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
 
       final imageBytes = File(imagePath).readAsBytesSync();
 
-      final prompt = TextPart(
-          "Identifique o medicamento da imagem e dê um resumo prático com a menor quantidade de linhas possível sendo bem objetivo e simples como se estivesse falando com uma vovó bem velhinha, incluindo informações da bula de como usar e para que serve, sem adicionar quaisquer outros pontos que não sejam fatais caso não sejam explicados, caso a vovó que será medicada não saiba, deixe o aviso de que só pode ser usado sob recomendações médicas.");
+      final prompt =
+          TextPart("""Identifique o medicamento da imagem e dê um resumo prático
+             com a menor quantidade de linhas possível sendo bem objetivo e 
+             simples como se estivesse falando com uma vovó bem velhinha, 
+             incluindo informações da bula de como usar e para que serve, 
+             sem adicionar quaisquer outros pontos que não sejam fatais 
+             caso não sejam explicados, caso a vovó que será medicada não 
+             saiba, deixe o aviso de que só pode ser usado sob 
+             recomendações médicas.""");
       final imageParts = [
         DataPart('image/jpeg', imageBytes),
       ];
@@ -150,7 +162,7 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
         Content.multi([prompt, ...imageParts])
       ]);
       logger.i(response.text);
-      _speak(response.text ?? 'Error: No response text');
+      _speak(response.text ?? 'Erro, sem resposta');
 
       if (response.text != null) {
         _speak("Deseja agendar o horario de uso?");
@@ -158,7 +170,7 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
       }
     } catch (e) {
       loggerNoStack.e('VOICE Error analyzing picture:', error: '$e');
-      _speak("Error analyzing the picture.");
+      _speak("Erro ao analisar a imagem.");
     }
   }
 
@@ -172,6 +184,7 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
         child: Text(
           _text,
           style: const TextStyle(fontSize: 24.0),
+          //TO-DO: implement the logic to Speak on Tap on screen
         ),
       ),
     );

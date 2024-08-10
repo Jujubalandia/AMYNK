@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'voice_recognition.dart';
+import 'user_flow.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const VoiceRecognition(title: 'Amynk!'),
+      home: const UserFlow(title: 'Amynk!'),
     );
   }
 }
