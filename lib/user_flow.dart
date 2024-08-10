@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'camera_screen.dart';
 import 'voice_recognition.dart';
 import 'image_analyzing.dart';
 import 'google_gemini_bloc.dart';
+import 'camera_screen.dart';
 
 class UserFlow extends StatefulWidget {
   final String title;
@@ -27,9 +27,10 @@ class _UserFlowState extends State<UserFlow> {
   );
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
     FlutterNativeSplash.remove();
+    _cameras = await availableCameras();
 
     final googleGeminiBloc = GoogleGeminiBloc(apiKey: _apiKey);
     _voiceRecognition = VoiceRecognition(onRecognized: _onRecognized);
