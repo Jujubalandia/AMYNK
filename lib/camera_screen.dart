@@ -51,7 +51,6 @@ class _CameraScreenState extends State<CameraScreen> {
       // Save the image to local storage or do something with it
       loggerNoStack.i('CAMERA: Picture taken: ${image.path}');
       widget.onPictureTaken(image.path);
-      _speak("Foto tirada com sucesso, analisando agora.");
     } catch (e) {
       logger.e('CAMERA: Error taking picture:', error: '$e');
       Logger(printer: SimplePrinter(colors: true)).t('Camera failed');
