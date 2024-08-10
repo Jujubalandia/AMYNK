@@ -88,11 +88,34 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
             loggerNoStack.i('Recognized: $_text');
             if (_text.toLowerCase().contains('take a picture')) {
               _openCamera();
+            } else if (_text.toLowerCase().contains('stop')) {
+              _stopListening();
+            } else if (_text.toLowerCase().contains('start')) {
+              _listenContinuously();
+            } else if (_text.toLowerCase().contains('remember')) {
+              _rememberMedicineSchedules();
+            } else if (_text.toLowerCase().contains('sim')) {
+              _medicineSchedule();
             }
           }
         }),
       );
     }
+  }
+
+  void _medicineSchedule() {
+    // Add your logic here
+    loggerNoStack.i('medicine schedules...');
+  }
+
+  void _rememberMedicineSchedules() {
+    // Add your logic here to remember medicine schedules
+    loggerNoStack.i('Remembering medicine schedules...');
+    // TO DO: implement the logic to remember medicine schedules
+  }
+
+  void _stopListening() {
+    _speech.stop();
   }
 
   void _openCamera() {
@@ -128,6 +151,11 @@ class _VoiceRecognitionState extends State<VoiceRecognition> {
       ]);
       logger.i(response.text);
       _speak(response.text ?? 'Error: No response text');
+
+      if (response.text != null) {
+        _speak("Deseja agendar o horario de uso?");
+        _listenContinuously();
+      }
     } catch (e) {
       loggerNoStack.e('VOICE Error analyzing picture:', error: '$e');
       _speak("Error analyzing the picture.");
