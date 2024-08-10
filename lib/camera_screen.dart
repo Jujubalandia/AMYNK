@@ -28,7 +28,8 @@ class _CameraScreenState extends State<CameraScreen> {
     );
     _initializeControllerFuture = _controller.initialize();
     _flutterTts = FlutterTts();
-    _speak("The camera is ready. Tap on screen to take a picture.");
+    _speak(
+        "Câmera pronta. Toque na tela para tirar uma foto para reconhecimento do remédio");
   }
 
   void _speak(String text) async {
@@ -49,11 +50,11 @@ class _CameraScreenState extends State<CameraScreen> {
       final image = await _controller.takePicture();
       // Save the image to local storage or do something with it
       loggerNoStack.i('CAMERA: Picture taken: ${image.path}');
-      _speak("Picture taken successfully. Analyzing the picture now.");
+      _speak("Foto tirada com sucesso, analisando agora.");
       widget.onPictureTaken(image.path);
     } catch (e) {
       logger.e('CAMERA: Error taking picture:', error: '$e');
-      Logger(printer: SimplePrinter(colors: true)).t('Camera falhou');
+      Logger(printer: SimplePrinter(colors: true)).t('Camera failed');
     }
   }
 
@@ -66,7 +67,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Take a Picture')),
+      appBar: AppBar(title: const Text('Ver remédio')),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
