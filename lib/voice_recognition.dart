@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -5,17 +7,17 @@ import 'package:permission_handler/permission_handler.dart';
 class VoiceRecognition {
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
-  final Function(String) onRecognized;
+  late Function(String) _onRecognized;
 
-  VoiceRecognition({required this.onRecognized}) {
+  VoiceRecognition({required Function(String) onRecognized}) {
     _speech = stt.SpeechToText();
     _flutterTts = FlutterTts();
+    _onRecognized = onRecognized;
   }
 
   Future<void> initialize() async {
     await _requestPermission();
-    await _speak(
-        "Estou pronto para te ajudar com os seus remédios. É só falar Ver Remédio para abrir a câmera.");
+    //await _speak("");
     _listenContinuously();
   }
 
@@ -51,11 +53,30 @@ class VoiceRecognition {
       _speech.listen(
         onResult: (val) {
           if (val.hasConfidenceRating && val.confidence > 0) {
-            onRecognized(val.recognizedWords);
+            _onRecognized(val.recognizedWords);
           }
         },
       );
     }
+  }
+
+  Future<String?> listenForInput() async {
+    bool available = await _speech.initialize();
+    if (available) {
+      final completer = Completer<String?>();
+      _speech.listen(onResult: (val) {
+        if (val.hasConfidenceRating && val.confidence > 0) {
+          _speech.stop();
+          completer.complete(val.recognizedWords);
+        }
+      });
+      return completer.future;
+    }
+    return null;
+  }
+
+  void setOnRecognizedCallback(Function(String) callback) {
+    _onRecognized = callback;
   }
 
   FlutterTts get flutterTts => _flutterTts;
