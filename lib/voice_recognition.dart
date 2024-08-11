@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:logger/logger.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -61,10 +62,16 @@ class VoiceRecognition {
     if (available) {
       final completer = Completer<String?>();
       _speech.listen(onResult: (val) {
+        Logger().i('Speech recognition result: $val');
         if (val.hasConfidenceRating && val.confidence > 0) {
+          Logger().i('Confidence rating: ${val.confidence}');
           _speech.stop();
           completer.complete(val.recognizedWords);
+        } else {
+          Logger().w('No confidence rating or confidence too low');
         }
+      }).catchError((error) {
+        Logger().e('Speech recognition error: $error');
       });
       return completer.future;
     }
