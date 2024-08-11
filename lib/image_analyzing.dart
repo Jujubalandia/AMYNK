@@ -56,11 +56,4 @@ class ImageAnalyzing {
   Future<void> _speak(String text) async {
     await flutterTts.speak(text);
   }
-
-  String? _extractMedicineName(String text) {
-    // Use a regular expression to extract the medicine name
-    final RegExp nameRegExp = RegExp(r'name\s*:\s*(\w+)', caseSensitive: false);
-    final match = nameRegExp.firstMatch(text);
-    return match?.group(1);
-  }
 }
