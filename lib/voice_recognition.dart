@@ -32,10 +32,6 @@ class VoiceRecognition {
     }
   }
 
-  Future<void> _speak(String text) async {
-    await _flutterTts.speak(text);
-  }
-
   void _listenContinuously() async {
     bool available = await _speech.initialize(
       onStatus: (val) {

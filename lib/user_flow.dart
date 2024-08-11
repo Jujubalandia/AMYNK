@@ -47,7 +47,7 @@ class _UserFlowState extends State<UserFlow> {
       voiceRecognition: _voiceRecognition,
       imageAnalyzing: _imageAnalyzing,
       scheduleMedicine: _scheduleMedicine,
-      context: context, // Pass the context here
+      context: context,
     );
 
     _initializeCameras();
@@ -57,23 +57,19 @@ class _UserFlowState extends State<UserFlow> {
 
   void _initializeCameras() async {
     _cameras = await availableCameras();
-    _imageAnalyzing
-        .setCameras(_cameras); // Set the cameras in the ImageAnalyzing class
+    _imageAnalyzing.setCameras(_cameras);
   }
 
   void _onRecognized(String text) {
     setState(() {
-      _voiceMenu.onRecognized(text); // Use the public method here
+      _voiceMenu.onRecognized(text);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Amynk'),
-      ),
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: Text(
           '',
           style: TextStyle(fontSize: 24.0),
@@ -83,3 +79,23 @@ class _UserFlowState extends State<UserFlow> {
     );
   }
 }
+
+/*
+
+Change this text for a fancy animation using flutter animation or rive with a  
+Big red cross flashing and emitting circular waves from the center to the entire screen in a looping gradient of red colors and lightening near the edges 
+
+Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          '',
+          style: TextStyle(fontSize: 24.0),
+          //TO-DO: implement the logic to Speak on Tap on screen
+        ),
+      ),
+    );
+  }
+
+
+*/
