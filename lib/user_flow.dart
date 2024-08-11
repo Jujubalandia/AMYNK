@@ -131,11 +131,11 @@ class CrossPainter extends CustomPainter {
 
     // Draw the red cross
     canvas.drawRect(
-      Rect.fromCenter(center: center, width: crossSize, height: 10),
+      Rect.fromCenter(center: center, width: crossSize, height: 20),
       paint,
     );
     canvas.drawRect(
-      Rect.fromCenter(center: center, width: 10, height: crossSize),
+      Rect.fromCenter(center: center, width: 20, height: crossSize),
       paint,
     );
 
