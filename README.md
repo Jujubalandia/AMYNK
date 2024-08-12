@@ -22,7 +22,7 @@ Think in people with visual disabilities or blind, or illiterate in their native
 
 ## Solution
 
-An application capable to recognize speach to text and image recognition and processing to allow people know about name, details, dosage and more information about the drug usability. This is a application with and advanced Voice UI Interface allow people to interact with this application with only voice, not buttons, text and neither visual components to interact via touch.
+An application capable to recognizes speech to text and image recognition and processing to allow people to know about name, details, dosage and more information about the drug usability. This is an application with an advanced Voice UI Interface to allow people to interact with this application with only voice, not buttons, text and neither visual components to interact via touch.
 
 ## How it works
 
