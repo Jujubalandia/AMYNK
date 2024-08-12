@@ -116,8 +116,8 @@ flutter install
 
 - Multi lingual enabled 
 - Auto detect language end to end of the user interaction (phone, objects, etc)
-- Can schedule times to take medicine
-- Can remember when the user need to take the medicine
+- Being able schedule times to take medicine
+- Being able remember when the user need to take the medicine
 - Apple Play Store
 - Google Play Store
 
