@@ -38,7 +38,7 @@ An application capable to recognizes speech to text and image recognition and pr
 
 ## Demo
 
-[![IAmynk Demo](https://img.youtube.com/vi/KlVvOQu2kWity_qV/0.jpg)](https://www.youtube.com/watch?v=KlVvOQu2kWity_qV)
+[![IAmynk Demo](https://img.youtube.com/vi/TlWp9PKqS0w/0.jpg)](https://www.youtube.com/watch?v=TlWp9PKqS0w)
 
 ## Tech Stack
 
