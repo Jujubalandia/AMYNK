@@ -36,9 +36,9 @@ An application capable to recognizes speech to text and image recognition and pr
 - Reads box, medicine bottle and pill pack
 
 
-## Demos
+## Demo
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+[![IAmynk Demo](https://img.youtube.com/vi/KlVvOQu2kWity_qV/0.jpg)](https://www.youtube.com/watch?v=KlVvOQu2kWity_qV)
 
 ## Tech Stack
 
