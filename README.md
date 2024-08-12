@@ -1,4 +1,4 @@
-# AMYNK - Everything you need to know about your medicine
+oi# AMYNK - Everything you need to know about your medicine
 
 ## About
 
@@ -116,8 +116,8 @@ flutter install
 
 - Multi lingual enabled 
 - Auto detect language end to end of the user interaction (phone, objects, etc)
-- Being able schedule times to take medicine
-- Being able remember when the user need to take the medicine
+- Being able to schedule times to take medicine
+- Being able to remember when the user need to take the medicine
 - Apple Play Store
 - Google Play Store
 
