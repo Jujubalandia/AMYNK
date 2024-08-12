@@ -1,4 +1,4 @@
-oi# AMYNK - Everything you need to know about your medicine
+# AMYNK - Everything you need to know about your medicine
 
 ## About
 
