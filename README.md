@@ -36,9 +36,9 @@ An application capable to recognizes speech to text and image recognition and pr
 - Reads box, medicine bottle and pill pack
 
 
-## Demos
+## Demo
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+[![IAmynk Demo](https://img.youtube.com/vi/TlWp9PKqS0w/0.jpg)](https://www.youtube.com/watch?v=TlWp9PKqS0w)
 
 ## Tech Stack
 
@@ -116,8 +116,8 @@ flutter install
 
 - Multi lingual enabled 
 - Auto detect language end to end of the user interaction (phone, objects, etc)
-- Can schedule times to take medicine
-- Can remember when the user need to take the medicine
+- Being able to schedule times to take medicine
+- Being able to remember when the user need to take the medicine
 - Apple Play Store
 - Google Play Store
 
