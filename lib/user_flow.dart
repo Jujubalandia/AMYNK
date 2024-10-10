@@ -23,7 +23,7 @@ class _UserFlowState extends State<UserFlow> {
   late ScheduleMedicine _scheduleMedicine;
   late VoiceMenu _voiceMenu;
   late List<CameraDescription> _cameras;
-  final String _apiKey = '';
+  final String _apiKey = 'AIzaSyDHzNeEUW0ad4mdfGB4w1oCgPms9gL6V3g';
 
   var logger = Logger(
     printer: PrettyPrinter(),
